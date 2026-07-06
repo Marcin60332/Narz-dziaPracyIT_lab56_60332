@@ -30,7 +30,7 @@ jobs:
         pyinstaller.exe --onefile project.py
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: converter-exe
         path: dist/project.exe
