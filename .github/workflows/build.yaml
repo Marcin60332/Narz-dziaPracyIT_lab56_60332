@@ -1,0 +1,36 @@
+name: Build Python EXE
+
+on:
+  push:
+    branches: [ master, main ]
+  schedule:
+    - cron: '0 12 * * 0' 
+  workflow_dispatch: 
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/actions-setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Dependencies
+      shell: powershell
+      run: |
+        ./installResources.ps1
+
+    - name: Build EXE with PyInstaller
+      shell: powershell
+      run: |
+        pyinstaller.exe --onefile project.py
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: converter-exe
+        path: dist/project.exe
